@@ -31,11 +31,27 @@ get_conn_key_val(void *arg)
 */
 import "C"
 import (
+	"fmt"
 	"sync"
+	"time"
 	"unsafe"
 )
 
 var tcpConns sync.Map
+
+func init() {
+	go func() {
+		for {
+			time.Sleep(5 * time.Second)
+			numConns := 0
+			tcpConns.Range(func(key, value interface{}) bool {
+				numConns++
+				return true
+			})
+			fmt.Printf("Num go-tun2socks TCP conns: %d\n", numConns)
+		}
+	}()
+}
 
 // We need such a key-value mechanism because when passing a Go pointer
 // to C, the Go pointer will only be valid during the call.
