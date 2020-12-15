@@ -14,6 +14,8 @@ import (
 	"sync"
 	"time"
 	"unsafe"
+
+	"github.com/getlantern/safechannels"
 )
 
 type tcpConnState uint
@@ -66,8 +68,8 @@ type tcpConn struct {
 	connKey       uint32
 	canWrite      *sync.Cond // Condition variable to implement TCP backpressure.
 	state         tcpConnState
-	readCh        chan []byte
-	readDoneCh    chan int
+	readCh        safechannels.Bytes
+	readDoneCh    safechannels.Int
 	closeOnce     sync.Once
 	readCloseOnce sync.Once
 	closeErr      error
@@ -96,8 +98,8 @@ func newTCPConn(pcb *C.struct_tcp_pcb, handler TCPConnHandler) (TCPConn, error) 
 		connKey:    connKey,
 		canWrite:   sync.NewCond(&sync.Mutex{}),
 		state:      tcpNewConn,
-		readCh:     make(chan []byte, 1),
-		readDoneCh: make(chan int, 1),
+		readCh:     safechannels.NewBytes(1),
+		readDoneCh: safechannels.NewInt(1),
 	}
 
 	// Associate conn with key and save to the global map.
@@ -184,11 +186,11 @@ func (conn *tcpConn) Receive() (<-chan []byte, error) {
 	if err := conn.receiveCheck(); err != nil {
 		return nil, err
 	}
-	return conn.readCh, nil
+	return conn.readCh.Read(), nil
 }
 
 func (conn *tcpConn) ReceiveDone(n int) {
-	conn.readDoneCh <- n
+	conn.readDoneCh.Write(n)
 }
 
 func (conn *tcpConn) Read(data []byte) (int, error) {
@@ -203,8 +205,8 @@ func (conn *tcpConn) Read(data []byte) (int, error) {
 	}
 	conn.Unlock()
 
-	conn.readCh <- data
-	n := <-conn.readDoneCh
+	conn.readCh.Write(data)
+	n := <-conn.readDoneCh.Read()
 	if n == -1 {
 		return 0, errors.New("insufficient read buffer")
 	}
@@ -387,8 +389,8 @@ func (conn *tcpConn) close() {
 }
 
 func (conn *tcpConn) closeReadCh() {
-	close(conn.readCh)
-	close(conn.readDoneCh)
+	conn.readCh.Close()
+	conn.readDoneCh.Close()
 }
 
 func (conn *tcpConn) setLocalClosed() error {
