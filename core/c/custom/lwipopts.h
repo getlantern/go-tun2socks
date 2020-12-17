@@ -34,7 +34,7 @@
 #define TUN2SOCKS 1
 
 #if !defined NO_SYS
-#define NO_SYS 1
+#define NO_SYS 0
 #endif
 #if !defined LWIP_TIMERS
 #define LWIP_TIMERS 1
@@ -171,10 +171,10 @@
 #define MEM_LIBC_MALLOC 0
 #endif
 #if !defined MEMP_MEM_MALLOC
-#define MEMP_MEM_MALLOC 1
+#define MEMP_MEM_MALLOC 0
 #endif
 #if !defined MEM_SIZE
-#define MEM_SIZE 1024 * 1024
+#define MEM_SIZE 512 * 1024
 #endif
 
 #if !defined LWIP_STATS
