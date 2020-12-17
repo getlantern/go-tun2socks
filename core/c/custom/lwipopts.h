@@ -171,10 +171,10 @@
 #define MEM_LIBC_MALLOC 0
 #endif
 #if !defined MEMP_MEM_MALLOC
-#define MEMP_MEM_MALLOC 0
+#define MEMP_MEM_MALLOC 1
 #endif
 #if !defined MEM_SIZE
-#define MEM_SIZE 512 * 1024
+#define MEM_SIZE 2 * 1024 * 1024
 #endif
 
 #if !defined LWIP_STATS
