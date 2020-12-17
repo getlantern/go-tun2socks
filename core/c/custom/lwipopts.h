@@ -172,7 +172,7 @@
 #endif
 #if !defined MEMP_MEM_MALLOC
 // don't use pools
-#define MEMP_MEM_MALLOC 1
+#define MEMP_MEM_MALLOC 0
 #endif
 #if !defined MEM_SIZE
 #define MEM_SIZE 1024 * 1024
