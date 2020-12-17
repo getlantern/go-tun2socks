@@ -20,11 +20,9 @@ import (
 const CHECK_TIMEOUTS_INTERVAL = 250 // in millisecond
 const TCP_POLL_INTERVAL = 8         // poll every 4 seconds
 
-func init() {
-	debug.SetPanicOnFault(true)
-}
-
 func pbufFree(p *C.struct_pbuf) {
+	debug.SetPanicOnFault(true)
+
 	defer func() {
 		if r := recover(); r != nil {
 			fmt.Println("panicked on freeing pbuf: \n" + string(debug.Stack()))
