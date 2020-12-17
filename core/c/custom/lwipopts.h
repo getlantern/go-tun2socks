@@ -155,13 +155,13 @@
 #define TCP_MSS 1460
 #endif
 #if !defined TCP_WND
-#define TCP_WND (8 * TCP_MSS)
+#define TCP_WND 0xFFFF
 #endif
 #if !defined TCP_SND_BUF
 #define TCP_SND_BUF (TCP_WND)
 #endif
 #if !defined TCP_SND_QUEUELEN
-#define TCP_SND_QUEUELEN (2 * TCP_SND_BUF/TCP_MSS)
+#define TCP_SND_QUEUELEN TCP_SNDQUEUELEN_OVERFLOW
 #endif
 #if !defined TCP_SNDQUEUELOWAT
 #define TCP_SNDQUEUELOWAT (TCP_SND_QUEUELEN - 1)
