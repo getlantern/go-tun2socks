@@ -34,7 +34,7 @@
 #define TUN2SOCKS 1
 
 #if !defined NO_SYS
-#define NO_SYS 0
+#define NO_SYS 1
 #endif
 #if !defined LWIP_TIMERS
 #define LWIP_TIMERS 1
