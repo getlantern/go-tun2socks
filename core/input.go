@@ -120,7 +120,7 @@ func input(pkt []byte) (int, error) {
 
 	ierr := C.input(buf)
 	if ierr != C.ERR_OK {
-		pbufFree(buf)
+		C.pbuf_free(buf)
 		return 0, errors.New("packet not handled")
 	}
 	return len(pkt), nil
