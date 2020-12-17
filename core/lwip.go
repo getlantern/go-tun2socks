@@ -21,7 +21,7 @@ const CHECK_TIMEOUTS_INTERVAL = 250 // in millisecond
 const TCP_POLL_INTERVAL = 8         // poll every 4 seconds
 
 func pbufFree(p *C.struct_pbuf) {
-	fmt.Printf("Calling pbuf_free: %v\n", debug.Stack())
+	fmt.Printf("Calling pbuf_free: %s\n", debug.Stack())
 	C.pbuf_free(p)
 }
 
