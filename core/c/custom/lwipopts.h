@@ -155,7 +155,7 @@
 #define TCP_MSS 1460
 #endif
 #if !defined TCP_WND
-#define TCP_WND (8 * TCP_MSS)
+#define TCP_WND (2 * TCP_MSS)
 #endif
 #if !defined TCP_SND_BUF
 #define TCP_SND_BUF (TCP_WND)
@@ -171,19 +171,17 @@
 #define MEM_LIBC_MALLOC 1
 #endif
 #if !defined MEMP_MEM_MALLOC
-// don't use pools
-#define MEMP_MEM_MALLOC 0
+#define MEMP_MEM_MALLOC 1
 #endif
 #if !defined MEM_SIZE
 #define MEM_SIZE 128 * 1024
 #endif
 
-
 #if !defined LWIP_STATS
-#define LWIP_STATS 1
+#define LWIP_STATS 0
 #endif
 #if !defined LWIP_STATS_DISPLAY
-#define LWIP_STATS_DISPLAY 1
+#define LWIP_STATS_DISPLAY 0
 #endif
 
 #if !defined SYS_LIGHTWEIGHT_PROT
