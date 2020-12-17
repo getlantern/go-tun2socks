@@ -159,7 +159,7 @@
 #define TCP_MSS 1460
 #endif
 #if !defined TCP_WND
-#define TCP_WND (4 * TCP_MSS)
+#define TCP_WND (2 * TCP_MSS)
 #endif
 #if !defined TCP_SND_BUF
 #define TCP_SND_BUF (TCP_WND)
