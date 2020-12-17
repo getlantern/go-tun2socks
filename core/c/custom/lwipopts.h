@@ -159,7 +159,7 @@
 #define TCP_MSS 1460
 #endif
 #if !defined TCP_WND
-#define TCP_WND (4 * TCP_MSS)
+#define TCP_WND (16 * TCP_MSS)
 #endif
 #if !defined TCP_SND_BUF
 #define TCP_SND_BUF (TCP_WND)
@@ -175,7 +175,7 @@
 #define MEM_LIBC_MALLOC 0
 #endif
 #if !defined MEMP_MEM_MALLOC
-#define MEMP_MEM_MALLOC 0
+#define MEMP_MEM_MALLOC 1
 #endif
 // #if !defined MEM_USE_POOLS
 // #define MEM_USE_POOLS 0
