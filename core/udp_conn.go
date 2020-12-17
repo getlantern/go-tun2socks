@@ -144,9 +144,15 @@ func (conn *udpConn) WriteFrom(data []byte, addr *net.UDPAddr) (int, error) {
 		return 0, err
 	}
 	buf := C.pbuf_alloc_reference(unsafe.Pointer(&data[0]), C.u16_t(len(data)), C.PBUF_ROM)
-	defer pbufFree(buf)
-	C.udp_sendto(conn.pcb, buf, &conn.localIP, conn.localPort, &cremoteIP, C.u16_t(addr.Port))
-	return len(data), nil
+	err := C.udp_sendto(conn.pcb, buf, &conn.localIP, conn.localPort, &cremoteIP, C.u16_t(addr.Port))
+	if err == C.ERR_OK {
+		pbufFree(buf)
+		return len(data), nil
+	} else if err == C.ERR_MEM {
+		pbufFree(buf)
+		return 0, nil
+	}
+	return 0, fmt.Errorf("udp_sendto failed (%v)", int(err))
 }
 
 func (conn *udpConn) Close() error {
