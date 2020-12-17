@@ -31,7 +31,7 @@ func pbufFree(p *C.struct_pbuf) {
 		}
 	}()
 
-	pbufFree(p)
+	C.pbuf_free(p)
 }
 
 type LWIPStack interface {
