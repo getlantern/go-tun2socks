@@ -7,6 +7,7 @@ import (
 	"os"
 	"os/signal"
 	"runtime"
+	"runtime/debug"
 	"strings"
 	"syscall"
 	"time"
@@ -168,6 +169,8 @@ func main() {
 
 	// Copy packets from tun device to lwip stack, it's the main loop.
 	go func() {
+		debug.SetPanicOnFault(true)
+
 		_, err := io.CopyBuffer(lwipWriter, tunDev, make([]byte, MTU))
 		if err != nil {
 			log.Fatalf("copying data failed: %v", err)

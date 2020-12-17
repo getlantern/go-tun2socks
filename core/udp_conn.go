@@ -9,6 +9,7 @@ import (
 	"errors"
 	"fmt"
 	"net"
+	"runtime/debug"
 	"sync"
 	"unsafe"
 )
@@ -50,6 +51,8 @@ func newUDPConn(pcb *C.struct_udp_pcb, handler UDPConnHandler, localIP C.ip_addr
 	}
 
 	go func() {
+		debug.SetPanicOnFault(true)
+
 		err := handler.Connect(conn, remoteAddr)
 		if err != nil {
 			conn.Close()

@@ -11,6 +11,7 @@ import (
 	"io"
 	"math/rand"
 	"net"
+	"runtime/debug"
 	"sync"
 	"time"
 	"unsafe"
@@ -109,6 +110,8 @@ func newTCPConn(pcb *C.struct_tcp_pcb, handler TCPConnHandler) (TCPConn, error) 
 	conn.state = tcpConnecting
 	conn.Unlock()
 	go func() {
+		debug.SetPanicOnFault(true)
+
 		err := handler.Handle(TCPConn(conn), conn.remoteAddr)
 		if err != nil {
 			conn.Abort()
