@@ -5,6 +5,7 @@ package core
 #include "lwip/tcp.h"
 #include "lwip/udp.h"
 #include "lwip/timeouts.h"
+#include "lwip/stats.h"
 */
 import "C"
 import (
@@ -17,6 +18,10 @@ import (
 
 const CHECK_TIMEOUTS_INTERVAL = 250 // in millisecond
 const TCP_POLL_INTERVAL = 8         // poll every 4 seconds
+
+func DisplayStats() {
+	C.stats_display()
+}
 
 type LWIPStack interface {
 	Write([]byte) (int, error)

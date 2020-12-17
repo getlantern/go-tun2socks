@@ -155,20 +155,35 @@
 #define TCP_MSS 1460
 #endif
 #if !defined TCP_WND
-#define TCP_WND 32 * 1024
+#define TCP_WND (8 * TCP_MSS)
 #endif
 #if !defined TCP_SND_BUF
 #define TCP_SND_BUF (TCP_WND)
+#endif
+#if !defined TCP_SND_QUEUELEN
+#define TCP_SND_QUEUELEN (2 * TCP_SND_BUF/TCP_MSS)
+#endif
+#if !defined TCP_SNDQUEUELOWAT
+#define TCP_SNDQUEUELOWAT (TCP_SND_QUEUELEN - 1)
 #endif
 
 #if !defined MEM_LIBC_MALLOC
 #define MEM_LIBC_MALLOC 1
 #endif
 #if !defined MEMP_MEM_MALLOC
+// don't use pools
 #define MEMP_MEM_MALLOC 1
 #endif
 #if !defined MEM_SIZE
-#define MEM_SIZE 128 * 1024
+#define MEM_SIZE 1024 * 1024
+#endif
+
+
+#if !defined LWIP_STATS
+#define LWIP_STATS 1
+#endif
+#if !defined LWIP_STATS_DISPLAY
+#define LWIP_STATS_DISPLAY 1
 #endif
 
 #if !defined SYS_LIGHTWEIGHT_PROT
