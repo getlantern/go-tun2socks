@@ -185,7 +185,7 @@
 // #endif
 
 #if !defined MEM_SIZE
-#define MEM_SIZE 1 * 1024 * 1024
+#define MEM_SIZE 128000
 #endif
 
 #if !defined LWIP_STATS
